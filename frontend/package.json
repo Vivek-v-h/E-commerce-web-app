@@ -43,6 +43,7 @@
   },
   "devDependencies": {
     "tailwindcss": "^3.3.6"
+    
   },
   "overrides": {
     "react-lottie": {

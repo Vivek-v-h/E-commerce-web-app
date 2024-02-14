@@ -5,9 +5,11 @@ const { upload}=require("../multer");
 const User = require("../model/user");
 const Errorhandler = require("../utils/Errorhandler");
 const fs = require("fs");
+const jwt=require("jsonwebtoken")
 
 router.post("/create-user", upload.single("file"), async(req,res,next)=>{
-    const {name,email,password}=req.body;
+    try{
+        const {name,email,password}=req.body;
     const userEmail=await User.findOne({email});
 
     if(userEmail){
@@ -34,14 +36,25 @@ router.post("/create-user", upload.single("file"), async(req,res,next)=>{
         avatar:{public_id:filename,url:fileUrl},
     }
     
-    console.log(user);
+    const activationToken=createActivationToken(user)
 
-    const newUser=await User.create(user);
-    res.status(201).json({
-        success:true,
-        newUser,
-    })
+    const activationUrl=`http://localhost:3000/activation/${activationToken}`
+    try{
+        
+    }catch(err){
+        return next(new Errorhandler(err.message,500))
+    }
 
+    }catch(err){
+        return next(new Errorhandler(err.message,400))
+    }
+    
 })
+
+const createActivationToken=(user)=>{
+    return jwt.sign(user,process.env.ACTIVATION_SECRET,{
+        expiresIn: "5m"
+    })
+}
 
 module.exports=router;

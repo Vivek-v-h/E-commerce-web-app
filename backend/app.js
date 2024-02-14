@@ -1,5 +1,5 @@
 const express=require("express");
-const Errorhandler = require("./utils/Errorhandler");
+const Errorhandler = require("./middleware/error");
 const app=express();
 const bodyParser=require("body-parser");
 const cookieParser=require("cookie-parser");

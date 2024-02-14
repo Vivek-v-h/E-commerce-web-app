@@ -15,7 +15,7 @@ const sendMail=async(options)=>{
         from:process.env.SMPT_MAIL,
         to:options.email,
         subject:options.subject,
-        text:options.text
+        text:options.message
     }
 
     await transporter.sendMail(mailOptions);
